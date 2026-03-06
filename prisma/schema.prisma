@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                 String   @id @default(uuid())
+  username           String   @unique
+  passwordHash       String
+  mustChangePassword Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //relations
+  events Event[] @relation("EventCreator")
+}
+
+model Event {
+  id        String   @id @default(uuid())
+  text      String
+  startDate DateTime
+  endDate   DateTime
+  createdBy String
+  createdAt DateTime @default(now())
+
+  //relations
+  creator User @relation("EventCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+}
