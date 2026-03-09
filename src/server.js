@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { config } from "dotenv";
 import { connectDB, disconnectDB } from "./config/db.js";
 
@@ -11,6 +12,12 @@ config();
 connectDB();
 
 const app = express();
+
+// CORS middleware
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:5175",
+  credentials: true
+}));
 
 //body parser middleware
 app.use(express.json());
