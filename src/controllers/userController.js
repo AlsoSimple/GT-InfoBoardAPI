@@ -97,4 +97,16 @@ const changePassword = async (req, res) => {
     }
 };
 
-export { createUser, getUsers, changePassword };
+const getMe = (req, res) => {
+    res.status(200).json({
+        status: "success",
+        data: {
+            id: req.user.id,
+            username: req.user.username,
+            mustChangePassword: req.user.mustChangePassword,
+            createdAt: req.user.createdAt,
+        },
+    });
+};
+
+export { createUser, getUsers, changePassword, getMe };
