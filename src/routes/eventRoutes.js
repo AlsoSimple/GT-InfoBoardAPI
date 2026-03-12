@@ -12,12 +12,10 @@ import { createEventSchema, updateEventSchema } from "../validators/eventValidat
 
 const router = express.Router();
 
-router.use(authMiddleware);
-
 router.get("/", getEvents);
-router.post("/", validateRequest(createEventSchema), createEvent);
 router.get("/:id", getEventById);
-router.patch("/:id", validateRequest(updateEventSchema), updateEvent);
-router.delete("/:id", deleteEvent);
+router.post("/", authMiddleware, validateRequest(createEventSchema), createEvent);
+router.patch("/:id", authMiddleware, validateRequest(updateEventSchema), updateEvent);
+router.delete("/:id", authMiddleware, deleteEvent);
 
 export default router;
